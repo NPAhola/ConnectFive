@@ -134,12 +134,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="ConnectFiveGUI.cpp" />
+    <ClCompile Include="GameLogic.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="ConnectFiveGUI.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="GameLogic.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="ConnectFiveGUI.resx">

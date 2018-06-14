@@ -1,4 +1,5 @@
 #include <iostream>
+#include "GameLogic.h"
 
 #pragma once
 
@@ -45,9 +46,12 @@ namespace ConnectFive {
 					this->new_button->TabIndex = 0;
 					this->new_button->Text = L"X";
 					this->new_button->UseVisualStyleBackColor = true;
+					this->new_button->BackColor = System::Drawing::Color::White;
 
 					// When clicked.
 					this->new_button->Click += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Click);
+					this->new_button->MouseHover += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Hover);
+					this->new_button->MouseLeave += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Hover_Leave);
 
 					// Add the button to Controls.
 					this->Controls->Add(this->new_button);
@@ -111,11 +115,25 @@ namespace ConnectFive {
 #pragma endregion
 	private: System::Void new_button_Click(System::Object^  sender, System::EventArgs^  e)
 	{
+		// Set button text according to turn.
 		int random_number = rand() % 1000;
-		this->button1->Text = System::Convert::ToString(random_number);
+		Button^ this_button = (Button^)sender;
+		this_button->Text = System::Convert::ToString(random_number);
+		//checkForWinner();
+	}
+	private: System::Void new_button_Hover(System::Object^  sender, System::EventArgs^  e)
+	{
+		Button^ this_button = (Button^)sender;
+		this_button->BackColor = System::Drawing::Color::Yellow;
+	}
+	private: System::Void new_button_Hover_Leave(System::Object^  sender, System::EventArgs^  e)
+	{
+		Button^ this_button = (Button^)sender;
+		this_button->BackColor = System::Drawing::Color::White;;
 	}
 	};
 
+	
 	
 
 	

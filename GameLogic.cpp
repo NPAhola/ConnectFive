@@ -29,3 +29,13 @@ unsigned GameLogic::getTurnNumber()
 {
 	return turn_number;
 }
+
+void GameLogic::changeTurn()
+{
+	player_turn = !player_turn;
+}
+
+unsigned GameLogic::getGridSize()
+{
+	return grid_size;
+}

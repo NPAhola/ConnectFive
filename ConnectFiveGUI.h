@@ -25,6 +25,9 @@ namespace ConnectFive {
 			//TODO: Add the constructor code here
 			//
 
+			// Button matrix init.
+			button_list = gcnew(System::Collections::Generic::List<System::Windows::Forms::Button^>);
+
 			// Create the gameboard.
 			unsigned int grid_size = current_game.getGridSize();
 			createButtonGrid(grid_size);
@@ -33,9 +36,9 @@ namespace ConnectFive {
 		void createButtonGrid(unsigned int size)
 		{
 			this->SuspendLayout();
-			for (int i = 0; i < size; i++)
+			for (unsigned int i = 0; i < size; i++)
 			{
-				for (int j = 0; j < size; j++)
+				for (unsigned int j = 0; j < size; j++)
 				{
 					// Create a new button.
 					this->new_button = (gcnew System::Windows::Forms::Button());
@@ -56,6 +59,9 @@ namespace ConnectFive {
 
 					// Add the button to Controls.
 					this->Controls->Add(this->new_button);
+
+					// Add button to matrix.
+					button_list->Add(new_button);
 				}
 			}
 		}
@@ -75,7 +81,8 @@ namespace ConnectFive {
 
 	private: System::Windows::Forms::Button^  new_button;
 	private: GameLogic current_game;
-
+	private: System::Collections::Generic::List<System::Windows::Forms::Button^>^ button_list;
+			 
 	protected:
 
 	private:
@@ -131,6 +138,8 @@ namespace ConnectFive {
 		}
 
 		current_game.changeTurn();
+		
+		button_list[0]->Text = L"list";
 		//checkForWinner();
 	}
 	private: System::Void new_button_Hover(System::Object^  sender, System::EventArgs^  e)

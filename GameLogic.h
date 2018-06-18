@@ -1,3 +1,5 @@
+#include <vector>
+
 #pragma once
 ref class GameLogic
 {
@@ -12,9 +14,10 @@ public:
 	void changeTurn();
 	unsigned int getGridSize();
 
+
 private:
 	bool player_turn = true;	// True = X's turn.
 	unsigned int turn_number = 0;	// Number of the current turn.
-	unsigned int grid_size = 5;
+	unsigned int grid_size = 5;	// Width and height of the square grid.
 };
 

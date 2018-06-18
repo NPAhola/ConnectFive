@@ -39,3 +39,4 @@ unsigned GameLogic::getGridSize()
 {
 	return grid_size;
 }
+

@@ -1,4 +1,5 @@
 #include <iostream>
+#include <ctime>
 #include "GameLogic.h"
 
 #pragma once
@@ -26,7 +27,7 @@ namespace ConnectFive {
 			//
 
 			// Button matrix init.
-			button_list = gcnew(System::Collections::Generic::List<System::Windows::Forms::Button^>);
+			button_list = gcnew(System::Collections::Generic::List<System::Collections::Generic::List<System::Windows::Forms::Button^>^>);
 
 			// Create the gameboard.
 			unsigned int grid_size = current_game.getGridSize();
@@ -61,7 +62,8 @@ namespace ConnectFive {
 					this->Controls->Add(this->new_button);
 
 					// Add button to matrix.
-					button_list->Add(new_button);
+					button_list->Add( gcnew(System::Collections::Generic::List<System::Windows::Forms::Button^>) );
+					button_list[i]->Add(new_button);
 				}
 			}
 		}
@@ -81,7 +83,8 @@ namespace ConnectFive {
 
 	private: System::Windows::Forms::Button^  new_button;
 	private: GameLogic current_game;
-	private: System::Collections::Generic::List<System::Windows::Forms::Button^>^ button_list;
+	private: System::Collections::Generic::List<System::Collections::Generic::List
+		<System::Windows::Forms::Button^>^>^ button_list;
 			 
 	protected:
 
@@ -138,8 +141,11 @@ namespace ConnectFive {
 		}
 
 		current_game.changeTurn();
-		
-		button_list[0]->Text = L"list";
+
+		srand(time(NULL));
+		int a = rand() % 5;
+		int b = rand() % 5;
+		button_list[a][b]->Text = System::Convert::ToString(a) + "," + System::Convert::ToString(b);
 		//checkForWinner();
 	}
 	private: System::Void new_button_Hover(System::Object^  sender, System::EventArgs^  e)

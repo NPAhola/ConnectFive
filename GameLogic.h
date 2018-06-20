@@ -7,7 +7,8 @@ public:
 	GameLogic();
 
 	void setupGame();
-	void checkForWinner();
+	void checkForWinner(int x, int y, System::Collections::Generic::List<System::Collections::Generic::List
+		<System::Windows::Forms::Button^>^>^ matrix);
 
 	bool getPlayerTurn();
 	unsigned int getTurnNumber();

@@ -27,7 +27,7 @@ namespace ConnectFive {
 			//
 
 			// Button matrix init.
-			button_list = gcnew(System::Collections::Generic::List<System::Collections::Generic::List<System::Windows::Forms::Button^>^>);
+			button_matrix = gcnew(System::Collections::Generic::List<System::Collections::Generic::List<System::Windows::Forms::Button^>^>);
 
 			// Create the gameboard.
 			unsigned int grid_size = current_game.getGridSize();
@@ -62,11 +62,15 @@ namespace ConnectFive {
 					this->Controls->Add(this->new_button);
 
 					// Add button to matrix.
-					button_list->Add( gcnew(System::Collections::Generic::List<System::Windows::Forms::Button^>) );
-					button_list[i]->Add(new_button);
+					button_matrix->Add( gcnew(System::Collections::Generic::List<System::Windows::Forms::Button^>) );
+					button_matrix[i]->Add(new_button);
+
+					// Add button to map.
+					button_map.Add(new_button, System::Collections::Generic::KeyValuePair<int, int>(i, j));
 				}
 			}
 		}
+	System::Collections::Generic::Dictionary<Button^, System::Collections::Generic::KeyValuePair<int, int> > button_map;
 
 	protected:
 		/// <summary>
@@ -84,7 +88,7 @@ namespace ConnectFive {
 	private: System::Windows::Forms::Button^  new_button;
 	private: GameLogic current_game;
 	private: System::Collections::Generic::List<System::Collections::Generic::List
-		<System::Windows::Forms::Button^>^>^ button_list;
+		<System::Windows::Forms::Button^>^>^ button_matrix;
 			 
 	protected:
 
@@ -127,9 +131,10 @@ namespace ConnectFive {
 #pragma endregion
 	private: System::Void new_button_Click(System::Object^  sender, System::EventArgs^  e)
 	{
+		Button^ this_button = (Button^)sender;
+
 		// Set button text according to turn.
 		bool turn = current_game.getPlayerTurn();
-		Button^ this_button = (Button^)sender;
 
 		if (turn)
 		{
@@ -142,11 +147,9 @@ namespace ConnectFive {
 
 		current_game.changeTurn();
 
-		srand(time(NULL));
-		int a = rand() % 5;
-		int b = rand() % 5;
-		button_list[a][b]->Text = System::Convert::ToString(a) + "," + System::Convert::ToString(b);
-		//checkForWinner();
+		System::Collections::Generic::KeyValuePair<int, int> coords = button_map[this_button];
+		//this_button->Text = System::Convert::ToString(coords.Key) + "," + System::Convert::ToString(coords.Value);
+		current_game.checkForWinner(coords.Key, coords.Value, button_matrix);
 	}
 	private: System::Void new_button_Hover(System::Object^  sender, System::EventArgs^  e)
 	{

@@ -9,6 +9,8 @@ public:
 	void setupGame();
 	void checkForWinner(int x, int y, System::Collections::Generic::List<System::Collections::Generic::List
 		<System::Windows::Forms::Button^>^>^ matrix);
+	int countConnected(int x, int y, int dir, System::Collections::Generic::List<System::Collections::Generic::List
+		<System::Windows::Forms::Button^>^>^ matrix);
 
 	bool getPlayerTurn();
 	unsigned int getTurnNumber();

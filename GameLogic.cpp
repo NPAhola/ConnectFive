@@ -6,13 +6,22 @@ GameLogic::GameLogic()
 {
 }
 
-void GameLogic::setupGame()
+void GameLogic::setupGame(System::Collections::Generic::List<System::Collections::Generic::List
+	<System::Windows::Forms::Button^>^>^ matrix)
 {
 	// Set default values etc.
 	player_turn = true;
 	turn_number = 0;
 
 	// Enable all buttons and set text empty.
+	for (int i = 0; i < grid_size; i++)
+	{
+		for (int j = 0; j < grid_size; j++)
+		{
+			matrix[i][j]->Enabled = true;
+			matrix[i][j]->Text = L"";
+		}
+	}
 }
 
 void GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<System::Collections::Generic::List
@@ -32,7 +41,7 @@ void GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<
 		else if (x != grid_size - 1 && y != grid_size - 1 && matrix[x][y]->Text == matrix[x+1][y+1]->Text)
 		{
 			System::Diagnostics::Debug::WriteLine("Diag TL->BR");
-			if (countConnected(x, y, 1, matrix) + countConnected(x, y, 8, matrix) >= 5)
+			if (countConnected(x, y, 1, matrix) + countConnected(x+1, y+1, 8, matrix) == 5)
 			{
 				five_connected = true;
 			}
@@ -58,7 +67,7 @@ void GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<
 		else if (x != grid_size - 1 && y != 0 && matrix[x][y]->Text == matrix[x+1][y-1]->Text)
 		{
 			System::Diagnostics::Debug::WriteLine("Diag BL->TR");
-			if (countConnected(x, y, 3, matrix) + countConnected(x, y, 6, matrix) >= 5)
+			if (countConnected(x, y, 3, matrix) + countConnected(x-1, y+1, 6, matrix) == 5)
 			{
 				five_connected = true;
 			}
@@ -84,7 +93,7 @@ void GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<
 		else if (x != grid_size - 1 && matrix[x][y]->Text == matrix[x+1][y]->Text)
 		{
 			System::Diagnostics::Debug::WriteLine("Horizontal");
-			if (countConnected(x, y, 4, matrix) + countConnected(x, y, 5, matrix) >= 5)
+			if (countConnected(x, y, 4, matrix) + countConnected(x+1, y, 5, matrix) == 5)
 			{
 				five_connected = true;
 			}
@@ -110,7 +119,7 @@ void GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<
 		else if (y != grid_size - 1 && matrix[x][y]->Text == matrix[x][y+1]->Text)
 		{
 			System::Diagnostics::Debug::WriteLine("Vertical");
-			if (countConnected(x, y, 2, matrix) + countConnected(x, y, 7, matrix) >= 5)
+			if (countConnected(x, y, 2, matrix) + countConnected(x, y+1, 7, matrix) == 5)
 			{
 				five_connected = true;
 			}

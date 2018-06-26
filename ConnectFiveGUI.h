@@ -52,6 +52,7 @@ namespace ConnectFive {
 					this->new_button->Text = L"";
 					this->new_button->UseVisualStyleBackColor = true;
 					this->new_button->BackColor = System::Drawing::Color::White;
+					this->new_button->TabStop = false;	// Get rid of blue outline.
 
 					// When clicked / hovered.
 					this->new_button->Click += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Click);
@@ -70,7 +71,9 @@ namespace ConnectFive {
 				}
 			}
 		}
-	System::Collections::Generic::Dictionary<Button^, System::Collections::Generic::KeyValuePair<int, int> > button_map;
+	private: System::Windows::Forms::Button^  but_exit;
+	public:
+		System::Collections::Generic::Dictionary<Button^, System::Collections::Generic::KeyValuePair<int, int> > button_map;
 
 	protected:
 		/// <summary>
@@ -83,7 +86,9 @@ namespace ConnectFive {
 				delete components;
 			}
 		}
-	private: System::Windows::Forms::Button^  button1;
+	private: System::Windows::Forms::Button^  but_newgame;
+	protected:
+
 
 	private: System::Windows::Forms::Button^  new_button;
 	private: GameLogic current_game;
@@ -105,24 +110,39 @@ namespace ConnectFive {
 		/// </summary>
 		void InitializeComponent(void)
 		{
-			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->but_newgame = (gcnew System::Windows::Forms::Button());
+			this->but_exit = (gcnew System::Windows::Forms::Button());
 			this->SuspendLayout();
 			// 
-			// button1
+			// but_newgame
 			// 
-			this->button1->Location = System::Drawing::Point(386, 288);
-			this->button1->Name = L"button1";
-			this->button1->Size = System::Drawing::Size(75, 23);
-			this->button1->TabIndex = 0;
-			this->button1->Text = L"button1";
-			this->button1->UseVisualStyleBackColor = true;
+			this->but_newgame->Location = System::Drawing::Point(715, 396);
+			this->but_newgame->Name = L"but_newgame";
+			this->but_newgame->Size = System::Drawing::Size(124, 23);
+			this->but_newgame->TabIndex = 0;
+			this->but_newgame->TabStop = false;
+			this->but_newgame->Text = L"New Game";
+			this->but_newgame->UseVisualStyleBackColor = true;
+			this->but_newgame->Click += gcnew System::EventHandler(this, &ConnectFiveGUI::button1_Click);
+			// 
+			// but_exit
+			// 
+			this->but_exit->Location = System::Drawing::Point(715, 436);
+			this->but_exit->Name = L"but_exit";
+			this->but_exit->Size = System::Drawing::Size(124, 23);
+			this->but_exit->TabIndex = 1;
+			this->but_exit->TabStop = false;
+			this->but_exit->Text = L"Exit";
+			this->but_exit->UseVisualStyleBackColor = true;
+			this->but_exit->Click += gcnew System::EventHandler(this, &ConnectFiveGUI::but_exit_Click);
 			// 
 			// ConnectFiveGUI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(522, 400);
-			this->Controls->Add(this->button1);
+			this->ClientSize = System::Drawing::Size(851, 608);
+			this->Controls->Add(this->but_exit);
+			this->Controls->Add(this->but_newgame);
 			this->Name = L"ConnectFiveGUI";
 			this->Text = L"ConnectFiveGUI";
 			this->ResumeLayout(false);
@@ -146,10 +166,11 @@ namespace ConnectFive {
 		}
 
 		current_game.changeTurn();
+		this_button->Enabled = false;	// Disable button until next game.
 
 		System::Collections::Generic::KeyValuePair<int, int> coords = button_map[this_button];
-		//this_button->Text = System::Convert::ToString(coords.Key) + "," + System::Convert::ToString(coords.Value);
 		current_game.checkForWinner(coords.Key, coords.Value, button_matrix);
+
 	}
 	private: System::Void new_button_Hover(System::Object^  sender, System::EventArgs^  e)
 	{
@@ -161,7 +182,15 @@ namespace ConnectFive {
 		Button^ this_button = (Button^)sender;
 		this_button->BackColor = System::Drawing::Color::White;;
 	}
-	};
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e)
+	{
+		current_game.setupGame(button_matrix);
+	}
+private: System::Void but_exit_Click(System::Object^  sender, System::EventArgs^  e)
+{
+	this->Close();
+}
+};
 
 	
 	

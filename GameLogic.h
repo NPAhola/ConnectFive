@@ -2,7 +2,7 @@
 
 #include <vector>
 
-namespace ConnectFive { ref class ConnectFiveGUI; };
+namespace ConnectFive { 
 
 ref class GameLogic
 {
@@ -12,6 +12,8 @@ public:
 	void setupGame(System::Collections::Generic::List<System::Collections::Generic::List
 		<System::Windows::Forms::Button^>^>^ matrix);
 	bool checkForWinner(int x, int y, System::Collections::Generic::List<System::Collections::Generic::List
+		<System::Windows::Forms::Button^>^>^ matrix);
+	bool checkForDraw(System::Collections::Generic::List<System::Collections::Generic::List
 		<System::Windows::Forms::Button^>^>^ matrix);
 	int countConnected(int x, int y, int dir, System::Collections::Generic::List<System::Collections::Generic::List
 		<System::Windows::Forms::Button^>^>^ matrix);
@@ -27,6 +29,7 @@ public:
 private:
 	bool player_turn = true;	// True = X's turn.
 	int turn_number = 0;	// Number of the current turn.
-	int grid_size = 15;	// Width and height of the square grid.
+	int grid_size = 5;	// Width and height of the square grid.
 };
 
+};

@@ -201,15 +201,19 @@ namespace ConnectFive {
 		}
 
 		current_game.changeTurn();
-		//this_button->Enabled = false;	// Disable button until next game.
 
 		System::Collections::Generic::KeyValuePair<int, int> coords = button_map[this_button];
 		bool winnerFound = current_game.checkForWinner(coords.Key, coords.Value, button_matrix);
+		bool gameTied = current_game.checkForDraw(button_matrix);
 
 		if (winnerFound)
 		{
 			if (!turn) { setWinnerLabel(true); }
-			else { setWinnerLabel(true); }
+			else { setWinnerLabel(false); }
+		}
+		else if (gameTied)
+		{
+			setWinnerLabel();
 		}
 
 	}
@@ -229,6 +233,10 @@ namespace ConnectFive {
 	private: System::Void but_newgame_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		current_game.setupGame(button_matrix);
+
+		// Set text labels to default.
+		label_winner->Text = L"";
+		label_turn->Text = L"X";
 	}
 	private: System::Void but_exit_Click(System::Object^  sender, System::EventArgs^  e)
 	{

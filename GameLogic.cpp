@@ -3,17 +3,17 @@
 
 
 
-GameLogic::GameLogic()
+ConnectFive::GameLogic::GameLogic()
 {
+	
 }
 
-void GameLogic::setupGame(System::Collections::Generic::List<System::Collections::Generic::List
+void ConnectFive::GameLogic::setupGame(System::Collections::Generic::List<System::Collections::Generic::List
 	<System::Windows::Forms::Button^>^>^ matrix)
 {
 	// Set default values etc.
 	player_turn = true;
 	turn_number = 0;
-	//ConnectFive::ConnectFiveGUI::setLabelsDefault();
 
 	// Enable all buttons and set text empty.
 	for (int i = 0; i < grid_size; i++)
@@ -26,7 +26,7 @@ void GameLogic::setupGame(System::Collections::Generic::List<System::Collections
 	}
 }
 
-bool GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<System::Collections::Generic::List
+bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<System::Collections::Generic::List
 	<System::Windows::Forms::Button^>^>^ matrix)
 {
 	bool five_connected = false;
@@ -143,16 +143,23 @@ bool GameLogic::checkForWinner(int x, int y, System::Collections::Generic::List<
 		System::Diagnostics::Debug::WriteLine("WINNER");
 		return true;
 	}
-	else if (turn_number == grid_size * grid_size)
+	
+	return false;
+}
+
+bool ConnectFive::GameLogic::checkForDraw(System::Collections::Generic::List<System::Collections::Generic::List
+	<System::Windows::Forms::Button^>^>^ matrix)
+{
+	if (turn_number == grid_size * grid_size)
 	{
 		disableAllButtons(matrix);
 		System::Diagnostics::Debug::WriteLine("It's a draw!");
-		//ConnectFive::ConnectFiveGUI::setWinnerLabel();
+		return true;
 	}
 	return false;
 }
 
-int GameLogic::countConnected(int x, int y, int dir, System::Collections::Generic::List<System::Collections::Generic::List
+int ConnectFive::GameLogic::countConnected(int x, int y, int dir, System::Collections::Generic::List<System::Collections::Generic::List
 	<System::Windows::Forms::Button^>^>^ matrix)
 {
 	int connected = 1;
@@ -199,7 +206,7 @@ int GameLogic::countConnected(int x, int y, int dir, System::Collections::Generi
 	return connected;
 }
 
-void GameLogic::disableAllButtons(System::Collections::Generic::List<System::Collections::Generic::List
+void ConnectFive::GameLogic::disableAllButtons(System::Collections::Generic::List<System::Collections::Generic::List
 	<System::Windows::Forms::Button^>^>^ matrix)
 {
 	for (int i = 0; i < grid_size; i++)
@@ -211,23 +218,23 @@ void GameLogic::disableAllButtons(System::Collections::Generic::List<System::Col
 	}
 }
 
-bool GameLogic::getPlayerTurn()
+bool ConnectFive::GameLogic::getPlayerTurn()
 {
 	return player_turn;
 }
 
-unsigned GameLogic::getTurnNumber()
+unsigned ConnectFive::GameLogic::getTurnNumber()
 {
 	return turn_number;
 }
 
-void GameLogic::changeTurn()
+void ConnectFive::GameLogic::changeTurn()
 {
 	player_turn = !player_turn;
 	turn_number++;
 }
 
-unsigned GameLogic::getGridSize()
+unsigned ConnectFive::GameLogic::getGridSize()
 {
 	return grid_size;
 }

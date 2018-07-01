@@ -29,7 +29,7 @@ public:
 private:
 	bool player_turn = true;	// True = X's turn.
 	int turn_number = 0;	// Number of the current turn.
-	int grid_size = 5;	// Width and height of the square grid.
+	int grid_size = 15;	// Width and height of the square grid.
 };
 
 };

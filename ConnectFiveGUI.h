@@ -1,3 +1,5 @@
+// Background image: http://eskipaper.com/images/snowy-trees-4.jpg
+
 #include <iostream>
 #include <ctime>
 #include "GameLogic.h"
@@ -32,48 +34,15 @@ namespace ConnectFive {
 			// Create the gameboard.
 			unsigned int grid_size = current_game.getGridSize();
 			createButtonGrid(grid_size);
+
+			// Set labels to default.
+			setLabelsToDefault();
 		}
 
-		void createButtonGrid(unsigned int size)
-		{
-			this->SuspendLayout();
-			for (unsigned int i = 0; i < size; i++)
-			{
-				for (unsigned int j = 0; j < size; j++)
-				{
-					// Create a new button.
-					this->new_button = (gcnew System::Windows::Forms::Button());
-
-					// Set default settings for the button.
-					this->new_button->Location = System::Drawing::Point(i * 35, j * 35);
-					this->new_button->Name = L"but";
-					this->new_button->Size = System::Drawing::Size(35, 35);
-					this->new_button->TabIndex = 0;
-					this->new_button->Text = L"";
-					this->new_button->Font = gcnew System::Drawing::Font("Britannic", 16.0);
-					this->new_button->UseVisualStyleBackColor = true;
-					this->new_button->BackColor = Color::White;
-					this->new_button->TabStop = false;	// Get rid of blue outline.
-
-					// When clicked / hovered.
-					this->new_button->Click += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Click);
-					this->new_button->MouseHover += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Hover);
-					this->new_button->MouseLeave += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Hover_Leave);
-
-					// Add the button to Controls.
-					this->Controls->Add(this->new_button);
-
-					// Add button to matrix.
-					button_matrix->Add(gcnew(System::Collections::Generic::List<System::Windows::Forms::Button^>));
-					button_matrix[i]->Add(new_button);
-
-					// Add button to map.
-					button_map.Add(new_button, System::Collections::Generic::KeyValuePair<int, int>(i, j));
-				}
-			}
-		}
-		void setWinnerLabel(bool winner);	// There is a winner
-		void setWinnerLabel();				// Tie
+		void createButtonGrid(unsigned int size);	// Create buttons for gameboard.
+		void setWinnerLabel(bool winner);			// There is a winner.
+		void setWinnerLabel();						// Game is a draw.
+		void setLabelsToDefault();					// Sets text labels to default.
 
 	private: System::Windows::Forms::Button^  but_exit;
 	private: System::Windows::Forms::Label^  label_winner;
@@ -117,6 +86,7 @@ namespace ConnectFive {
 		/// </summary>
 		void InitializeComponent(void)
 		{
+			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(ConnectFiveGUI::typeid));
 			this->but_newgame = (gcnew System::Windows::Forms::Button());
 			this->but_exit = (gcnew System::Windows::Forms::Button());
 			this->label_winner = (gcnew System::Windows::Forms::Label());
@@ -147,24 +117,33 @@ namespace ConnectFive {
 			// 
 			// label_winner
 			// 
-			this->label_winner->AutoSize = true;
-			this->label_winner->Location = System::Drawing::Point(727, 135);
+			this->label_winner->BackColor = System::Drawing::SystemColors::Control;
+			this->label_winner->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 16.2F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label_winner->Location = System::Drawing::Point(703, 178);
 			this->label_winner->Name = L"label_winner";
-			this->label_winner->Size = System::Drawing::Size(0, 17);
+			this->label_winner->Size = System::Drawing::Size(145, 32);
 			this->label_winner->TabIndex = 2;
+			this->label_winner->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// label_turn
 			// 
-			this->label_turn->AutoSize = true;
-			this->label_turn->Location = System::Drawing::Point(730, 204);
+			this->label_turn->BackColor = System::Drawing::SystemColors::Control;
+			this->label_turn->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 48, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(0)));
+			this->label_turn->Location = System::Drawing::Point(703, 210);
 			this->label_turn->Name = L"label_turn";
-			this->label_turn->Size = System::Drawing::Size(0, 17);
+			this->label_turn->Size = System::Drawing::Size(145, 90);
 			this->label_turn->TabIndex = 3;
+			this->label_turn->TextAlign = System::Drawing::ContentAlignment::MiddleCenter;
 			// 
 			// ConnectFiveGUI
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::SystemColors::ControlDark;
+			this->BackgroundImage = (cli::safe_cast<System::Drawing::Image^>(resources->GetObject(L"$this.BackgroundImage")));
+			this->BackgroundImageLayout = System::Windows::Forms::ImageLayout::Center;
 			this->ClientSize = System::Drawing::Size(850, 650);
 			this->Controls->Add(this->label_turn);
 			this->Controls->Add(this->label_winner);
@@ -173,7 +152,6 @@ namespace ConnectFive {
 			this->Name = L"ConnectFiveGUI";
 			this->Text = L"ConnectFiveGUI";
 			this->ResumeLayout(false);
-			this->PerformLayout();
 
 		}
 #pragma endregion
@@ -192,12 +170,14 @@ namespace ConnectFive {
 			this_button->Text = L"X";
 			this_button->ForeColor = Color::Blue;
 			label_turn->Text = L"O";
+			label_turn->ForeColor = Color::Red;
 		}
 		else
 		{
 			this_button->Text = L"O";
 			this_button->ForeColor = Color::Red;
 			label_turn->Text = L"X";
+			label_turn->ForeColor = Color::Blue;
 		}
 
 		current_game.changeTurn();
@@ -210,10 +190,12 @@ namespace ConnectFive {
 		{
 			if (!turn) { setWinnerLabel(true); }
 			else { setWinnerLabel(false); }
+			//label_turn->Text = L"";
 		}
 		else if (gameTied)
 		{
 			setWinnerLabel();
+			//label_turn->Text = L"";
 		}
 
 	}
@@ -232,20 +214,14 @@ namespace ConnectFive {
 	}
 	private: System::Void but_newgame_Click(System::Object^  sender, System::EventArgs^  e)
 	{
+		// Setup game's values and text labels.
 		current_game.setupGame(button_matrix);
-
-		// Set text labels to default.
-		label_winner->Text = L"";
-		label_turn->Text = L"X";
+		setLabelsToDefault();
 	}
 	private: System::Void but_exit_Click(System::Object^  sender, System::EventArgs^  e)
 	{
 		this->Close();
 	}
 
-
-
-
-
-	};
-}
+};
+};

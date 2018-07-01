@@ -35,14 +35,12 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	// Diagonal from top left to bottom right
 	if (x != 0 && y != 0 && matrix[x-1][y-1]->Text == matrix[x][y]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("TL");
 		if (countConnected(x, y, 1, matrix) == 5)
 		{
 			five_connected = true;
 		}
 		else if (x != grid_size - 1 && y != grid_size - 1 && matrix[x][y]->Text == matrix[x+1][y+1]->Text)
 		{
-			System::Diagnostics::Debug::WriteLine("Diag TL->BR");
 			if (countConnected(x, y, 1, matrix) + countConnected(x+1, y+1, 8, matrix) == 5)
 			{
 				five_connected = true;
@@ -52,7 +50,6 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	}
 	else if (x != grid_size - 1 && y != grid_size - 1 && matrix[x][y]->Text == matrix[x+1][y+1]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("BR");
 		if (countConnected(x, y, 8, matrix) == 5)
 		{
 			five_connected = true;
@@ -61,14 +58,12 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	// Diagonal from bottom left to top right
 	if (x != 0 && y != grid_size - 1 && matrix[x-1][y+1]->Text == matrix[x][y]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("BL");
 		if (countConnected(x, y, 6, matrix) == 5)
 		{
 			five_connected = true;
 		}
 		else if (x != grid_size - 1 && y != 0 && matrix[x][y]->Text == matrix[x+1][y-1]->Text)
 		{
-			System::Diagnostics::Debug::WriteLine("Diag BL->TR");
 			if (countConnected(x, y, 3, matrix) + countConnected(x-1, y+1, 6, matrix) == 5)
 			{
 				five_connected = true;
@@ -78,7 +73,6 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	}
 	else if (x != grid_size - 1 && y != 0 && matrix[x][y]->Text == matrix[x+1][y-1]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("TR");
 		if (countConnected(x, y, 3, matrix) == 5)
 		{
 			five_connected = true;
@@ -87,14 +81,12 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	// Horizontal
 	if (x != 0 && matrix[x-1][y]->Text == matrix[x][y]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("L");
 		if (countConnected(x, y, 4, matrix) == 5)
 		{
 			five_connected = true;
 		}
 		else if (x != grid_size - 1 && matrix[x][y]->Text == matrix[x+1][y]->Text)
 		{
-			System::Diagnostics::Debug::WriteLine("Horizontal");
 			if (countConnected(x, y, 4, matrix) + countConnected(x+1, y, 5, matrix) == 5)
 			{
 				five_connected = true;
@@ -104,7 +96,6 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	}
 	else if (x != grid_size - 1 && matrix[x][y]->Text == matrix[x+1][y]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("R");
 		if (countConnected(x, y, 5, matrix) == 5)
 		{
 			five_connected = true;
@@ -113,14 +104,12 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	// Vertical
 	if (y != 0 && matrix[x][y-1]->Text == matrix[x][y]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("U");
 		if (countConnected(x, y, 2, matrix) == 5)
 		{
 			five_connected = true;
 		}
 		else if (y != grid_size - 1 && matrix[x][y]->Text == matrix[x][y+1]->Text)
 		{
-			System::Diagnostics::Debug::WriteLine("Vertical");
 			if (countConnected(x, y, 2, matrix) + countConnected(x, y+1, 7, matrix) == 5)
 			{
 				five_connected = true;
@@ -130,7 +119,6 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	}
 	else if (y != grid_size - 1 && matrix[x][y]->Text == matrix[x][y+1]->Text)
 	{
-		System::Diagnostics::Debug::WriteLine("D");
 		if (countConnected(x, y, 7, matrix) == 5)
 		{
 			five_connected = true;
@@ -140,7 +128,6 @@ bool ConnectFive::GameLogic::checkForWinner(int x, int y, System::Collections::G
 	if (five_connected)
 	{
 		disableAllButtons(matrix);
-		System::Diagnostics::Debug::WriteLine("WINNER");
 		return true;
 	}
 	

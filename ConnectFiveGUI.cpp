@@ -1,35 +1,59 @@
 #include "ConnectFiveGUI.h"
 
+ConnectFive::ConnectFiveGUI::ConnectFiveGUI(void)
+{
+	// Constructor for the class.
+	InitializeComponent();
+
+	// Button matrix init.
+	button_matrix = gcnew(Generic::List<Generic::List<Button^>^>);
+
+	// Create the gameboard.
+	unsigned int grid_size = current_game.getGridSize();
+	createButtonGrid(grid_size);
+
+	// Set labels to default.
+	setLabelsToDefault();
+}
+
 void ConnectFive::ConnectFiveGUI::setWinnerLabel(bool turn)
 {
+	// There is a winner.
 	if (!turn)
 	{
-		label_winner->Text = L"WINNER";
-		label_turn->Text = L"X";
-		label_turn->ForeColor = Color::Blue;
+		// X won.
+		label_infotext->Text = L"WINNER";
+		label_symbol->Text = L"X";
+		label_symbol->ForeColor = Color::Blue;
 	}
 	else
 	{
-		label_winner->Text = L"WINNER";
-		label_turn->Text = L"O";
-		label_turn->ForeColor = Color::Red;
+		// O won.
+		label_infotext->Text = L"WINNER";
+		label_symbol->Text = L"O";
+		label_symbol->ForeColor = Color::Red;
 	}
 }
 
 void ConnectFive::ConnectFiveGUI::setWinnerLabel()
 {
-	label_winner->Text = L"It's a draw.";
+	// The game is a draw.
+	label_infotext->Text = L"DRAW";
+	label_symbol->Text = L"-";
+	label_symbol->ForeColor = Color::Black;
 }
 
 void ConnectFive::ConnectFiveGUI::setLabelsToDefault()
 {
-	label_winner->Text = L"TURN";
-	label_turn->Text = L"X";
-	label_turn->ForeColor = Color::Blue;
+	// The game starts with X's turn.
+	label_infotext->Text = L"TURN";
+	label_symbol->Text = L"X";
+	label_symbol->ForeColor = Color::Blue;
 }
 
 void ConnectFive::ConnectFiveGUI::createButtonGrid(unsigned int size)
 {
+	// Creates a square grid of buttons as the gameboard.
 	this->SuspendLayout();
 	for (unsigned int i = 0; i < size; i++)
 	{
@@ -49,7 +73,7 @@ void ConnectFive::ConnectFiveGUI::createButtonGrid(unsigned int size)
 			this->new_button->BackColor = Color::White;
 			this->new_button->TabStop = false;	// Get rid of blue outline.
 
-												// When clicked / hovered.
+			// When clicked / hovered.
 			this->new_button->Click += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Click);
 			this->new_button->MouseHover += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Hover);
 			this->new_button->MouseLeave += gcnew System::EventHandler(this, &ConnectFiveGUI::new_button_Hover_Leave);

@@ -1,3 +1,6 @@
+// Background image: http://eskipaper.com/images/snowy-trees-4.jpg
+// Size modified and changed to bmp format.
+
 #include "ConnectFiveGUI.h"
 
 using namespace System;

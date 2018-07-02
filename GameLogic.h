@@ -1,35 +1,40 @@
 #pragma once
 
-#include <vector>
-
 namespace ConnectFive { 
 
+using namespace System::Collections;
+using namespace System::Windows::Forms;
+
+/// <summary>
+/// This class keeps track of the game's current situation and handles
+/// calculations needed for the game.
+/// </summary>
 ref class GameLogic
 {
 public:
-	GameLogic();
+	GameLogic();	// Constructor.
 	
-	void setupGame(System::Collections::Generic::List<System::Collections::Generic::List
-		<System::Windows::Forms::Button^>^>^ matrix);
-	bool checkForWinner(int x, int y, System::Collections::Generic::List<System::Collections::Generic::List
-		<System::Windows::Forms::Button^>^>^ matrix);
-	bool checkForDraw(System::Collections::Generic::List<System::Collections::Generic::List
-		<System::Windows::Forms::Button^>^>^ matrix);
-	int countConnected(int x, int y, int dir, System::Collections::Generic::List<System::Collections::Generic::List
-		<System::Windows::Forms::Button^>^>^ matrix);
-	void disableAllButtons(System::Collections::Generic::List<System::Collections::Generic::List
-		<System::Windows::Forms::Button^>^>^ matrix);
+	// Setup the game to default.
+	void setupGame(Generic::List<Generic::List<Button^>^>^ matrix);
+	// Disable all buttons of the gameboard.
+	void disableAllButtons(Generic::List<Generic::List<Button^>^>^ matrix);
+	// Check if there's a winner.
+	bool checkForWinner(int x, int y, Generic::List<Generic::List<Button^>^>^ matrix);
+	// Check if there's a draw.
+	bool checkForDraw(Generic::List<Generic::List<Button^>^>^ matrix);
+	// Count number of consecutive symbols. Needed by checkForWinner().
+	int countConnected(int x, int y, int dir, Generic::List<Generic::List<Button^>^>^ matrix);
 
-	bool getPlayerTurn();
-	unsigned int getTurnNumber();
-	void changeTurn();
-	unsigned int getGridSize();
+	void changeTurn();			// Change turn.
+	bool getPlayerTurn();		// Return the current turn.
+	int getTurnNumber();		// Return the current turn's number.
+	int getGridSize();			// Return the grid size.
 	
 	
 private:
-	bool player_turn = true;	// True = X's turn.
-	int turn_number = 0;	// Number of the current turn.
-	int grid_size = 15;	// Width and height of the square grid.
+	bool player_turn_ = true;	// True = X's turn.
+	int turn_number_ = 0;		// Number of the current turn.
+	int grid_size_ = 15;		// Width (and height) of the square grid.
 };
 
 };
